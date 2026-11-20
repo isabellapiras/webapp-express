@@ -11,3 +11,30 @@ generator client {
 datasource db {
   provider = "mysql"
 }
+
+model Book {
+  id Int @id @default(autoincrement())
+
+  isbn        String   @unique @db.VarChar(13)
+  slug        String   @unique @db.VarChar(300)
+  title       String   @db.VarChar(255)
+  author      String   @db.VarChar(255)
+  publisher   String   @db.VarChar(255)
+  price       Decimal  @db.Decimal(5, 2)
+  description String?  @db.Text
+  cover       String?  @db.VarChar(255)
+  pageNumber  Int?     @db.SmallInt
+  inStock     Boolean  @default(true)
+  releaseDate DateTime @db.Date
+  categoryId  Int
+  category    Category @relation(fields: [categoryId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Category {
+  id    Int    @id @default(autoincrement())
+  name  String @unique @db.VarChar(100)
+  slug  String @unique @db.VarChar(100)
+  books Book[]
+}
