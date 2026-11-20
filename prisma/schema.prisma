@@ -30,6 +30,8 @@ model Book {
   category    Category @relation(fields: [categoryId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@map("books")
 }
 
 model Category {
@@ -37,4 +39,6 @@ model Category {
   name  String @unique @db.VarChar(100)
   slug  String @unique @db.VarChar(100)
   books Book[]
+
+  @@map("categories")
 }
